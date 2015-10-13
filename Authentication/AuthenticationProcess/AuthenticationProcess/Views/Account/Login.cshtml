@@ -1,0 +1,168 @@
+﻿@using AuthenticationProcess.Models
+@model LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html lang="en" class="login_page">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{Replace Application Name}</title>
+
+    <!-- Bootstrap framework -->
+    <link rel="stylesheet" href="~/Scripts/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Scripts/bootstrap/css/bootstrap-responsive.min.css" />
+    <!-- gebo theme color-->
+    <link rel="stylesheet" href="~/Content/css/tamarillo.css" />
+    <!-- main styles -->
+    <link rel="stylesheet" href="~/Content/css/style.css" />
+
+    <!-- tooltip -->
+    <link href="~/Scripts/GeboLib/qtip2/jquery.qtip.min.css" rel="stylesheet" />
+
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+
+    <!--[if lte IE 8]>
+        <script src="~/Scripts/Gebo/ie/html5.js"></script>
+        <script src="~/Scripts/Gebo/ie/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .loginInfo {
+            width: 85px !important;
+            text-align: right !important;
+        }
+
+        .loginInfo2 {
+            width: 150px !important;
+            text-align: right !important;
+        }
+
+        .Edwardstag {
+            margin-left: 236px !important;
+            margin-top: 5px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="login_box" style="width:500px">
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @id = "login_form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="top_b" style="height:auto;text-align:center;font-weight:bold">
+                <span style='background: url(../Content/img/bo.png); display: block; height: 71px; width:166px;    margin: 0px auto;'></span>
+                <span>{Login - etc Company}</span>
+            </div>
+            @*<div id="success_message" class="alert alert-info alert-login hide">
+                @Html.DisplayFor(m => m.Message)
+            </div>*@
+        <input type="hidden" id="returnUrl" value="~/Admin/Index">
+        <div id="validation_error" class="alert alert-error alert-login hide">
+                @Html.ValidationSummary(true)
+            </div>
+            <div class="cnt_b">
+                <div class="formRow">
+                    <div class="input-prepend">
+                        <span class="add-on loginInfo">User ID</span>
+                        @Html.TextBoxFor(m => m.UserName, new { @type = "text" })
+                    </div>
+                </div>
+                <div class="formRow">
+                    <div class="input-prepend">
+                        <span class="add-on loginInfo">Password</span>
+                        @Html.TextBoxFor(m => m.Password, new { @type = "password" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="btm_b clearfix">
+                <button id="btnSignIn" class="btn btn-inverse pull-right" type="submit">Sign In</button>
+                @* <span class="link_reg"><a href="#password_form2">Change password?</a>  |  <a href="#reset_form">Reset password?</a></span>*@
+            </div>
+        }
+
+    </div>
+
+    <script src="~/Scripts/Gebo/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.actual.min.js"></script>
+    <script src="~/Scripts/GeboLib/validation/jquery.validate.min.js"></script>
+    <script src="~/Scripts/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            //* boxes animation
+            form_wrapper = $('.login_box');
+            function boxHeight() {
+                form_wrapper.animate({ marginTop: (-(form_wrapper.height() / 2) - 24) }, 400);
+            };
+            form_wrapper.css({ marginTop: (-(form_wrapper.height() / 2) - 24) });
+            $('.linkform a,.link_reg a,a').on('click', function (e) {
+                var target = $(this).attr('href'),
+                    target_height = $(target).actual('height');
+                $(form_wrapper).css({
+                    'height': form_wrapper.height()
+                });
+                $(form_wrapper.find('form:visible')).fadeOut(400, function () {
+                    form_wrapper.stop().animate({
+                        height: target_height,
+                        marginTop: (-(target_height / 2) - 24)
+                    }, 500, function () {
+                        $(target).fadeIn(400);
+                        $('.links_btm .linkform').toggle();
+                        $(form_wrapper).css({
+                            'height': ''
+                        });
+                    });
+                });
+                e.preventDefault();
+            });
+
+            var loginView = $("#hidLoginView").val();
+
+
+           $('#login_form').show();
+
+            $('#validation_error').hide();
+
+            if ($('#validation_error').text().length > 38) {
+                $('#validation_error').show();
+            }
+
+
+            console.log($('#success_message').text());
+
+            if ($('#success_message').text().length > 38) {
+                $('#success_message').show();
+            }
+
+            //* validation
+            $('#login_form').validate({
+                onkeyup: false,
+                errorClass: 'error',
+                validClass: 'valid',
+                rules: {
+                    Name: { required: true, minlength: 2 },
+                    Password: { required: true, minlength: 4 }
+                },
+                highlight: function (element) {
+                    $(element).closest('div').addClass("f_error");
+                    setTimeout(function () {
+                        boxHeight()
+                    }, 200)
+                },
+                unhighlight: function (element) {
+                    $(element).closest('div').removeClass("f_error");
+                    setTimeout(function () {
+                        boxHeight()
+                    }, 200)
+                },
+                errorPlacement: function (error, element) {
+                    $(element).closest('div').append(error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

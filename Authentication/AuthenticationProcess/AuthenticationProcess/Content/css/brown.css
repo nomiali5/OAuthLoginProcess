@@ -1,0 +1,38 @@
+/* ---- Gebo Admin brown theme ---- 9b6e3b 76542d*/
+
+    .navbar-inner {
+		background: #9b6e3b;
+		background: -moz-linear-gradient(top,  #FCB322 0%, #F36C32 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FCB322), color-stop(100%,#F36C32));
+		background: -webkit-linear-gradient(top,  #FCB322 0%,#F36C32 100%);
+		background: -o-linear-gradient(top,  #FCB322 0%,#F36C32 100%);
+		background: -ms-linear-gradient(top,  #FCB322 0%,#F36C32 100%);
+		background: linear-gradient(top,  #FCB322 0%,#F36C32 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FCB322', endColorstr='#F36C32',GradientType=0 );
+    }
+    .navbar .nav > li > a {
+        color: #efe3d5;
+    }
+    .navbar .nav > li:hover > a {
+        color:#fff;
+    }
+    .navbar .nav .active > a, .navbar .nav .active > a:hover {
+        background: #76542d !important;
+    }
+    .navbar .divider-vertical {
+		border-left-color:#76542d;
+        border-right-color:#bb884e;
+    }
+    .dropdown-menu li > a:hover, .dropdown-menu .active > a,
+	.dropdown-menu .active > a:hover,
+    .nav-list > .active > a, .nav-list > .active > a:hover {
+        background: #b47f44 !important;
+    }
+    .ui-menu .ui-menu-item a.ui-state-hover,
+    .ui-menu .ui-menu-item a.ui-state-active {
+        background: #b47f44 !important;
+        border-color:#b47f44 !important;
+    }
+	
+	.table thead th {background-color:#f8f3ee !important}
+	.dataTables_wrapper th.sorting_asc,.dataTables_wrapper th.sorting_desc {background-color:#eee2d6 !important}

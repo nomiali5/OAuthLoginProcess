@@ -1,0 +1,133 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    var UserName = HttpContext.Current.User.Identity.Name.Split('|')[0];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - {Replace Name}</title>
+    @Styles.Render("~/Scripts/bootstrap/css/bootstrap")
+    @Styles.Render("~/Content/css/style")
+    @Styles.Render("~/stylebundles/gebo")
+    <link rel="stylesheet" href="~/Content/css/style.css">
+    <link rel="stylesheet" href="~/Content/css/brown.css" id="link_theme" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans" />
+    <link href="@Url.Content("~/Content/dataTables/demo_table.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/dataTables/demo_table_jui.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" type="text/css" media="all" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script>
+        //* hide all elements & show preloader
+        document.documentElement.className += 'js';
+    </script>
+    <script src="~/Scripts/Gebo/jquery.min.js"></script>
+    <script src="~/Scripts/Kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/Gebo/Rating/js/jquery.raty.min.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery.dataTables.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.dataTables.columnFilter.js")" type="text/javascript"></script>
+    <style>
+        .main_content {
+            background: url("../Content/img/logo.png") right no-repeat #fff;
+            background-position: 500px 52px;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="loading_layer" style="display: none">
+        <img src="~/Content/img/ajax_loader.gif" alt="" />
+    </div>
+    <div id="maincontainer" class="clearfix">
+        <!-- header -->
+        <header>
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="brand" href="@Url.Action("Index", "Home")" style="width: 250px; margin-left:40px !important;"><i class="icon-home icon-white"></i>&nbsp;Home</a>
+                        <ul class="nav user_menu pull-right">
+                            <li class="divider-vertical hidden-phone hidden-tablet">
+
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="~/Content/img/user_avatar.png" alt="" class="user_avatar" id="userId" />
+                                    @UserName <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="~/Account/LogOff">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav" id="mobile-nav"></ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- main content -->
+        <div id="contentwrapper">
+            <div class="main_content" style="margin-left: 0px;">
+                <div style="padding-top:120px;">
+                    @RenderBody()
+                </div>
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - {your application here}</p>
+                </footer>
+            </div>
+           
+        </div>
+
+        @Scripts.Render("~/scriptbundles/bootstrap")
+        @Scripts.Render("~/scriptbundles/gebo")
+        @Scripts.Render("~/scriptbundles/jquery")
+
+        <script src="~/Scripts/Gebo/gebo_datatables.js"></script>
+        <!-- calendar -->
+        <script src="~/Scripts/GeboLib/fullcalendar/fullcalendar.min.js"></script>
+        <script src="~/Scripts/GeboLib/fullcalendar/gcal.js"></script>
+        <script src="~/Scripts/GeboLib/validation/jquery.validate.js"></script>
+        <!-- signalR -->
+        <script src="~/Scripts/jquery.signalR-2.2.0.min.js" type="text/javascript"></script>
+        <script src="~/signalr/hubs" type="text/javascript"></script>
+
+        <script>
+        //* bootstrap datepicker
+        $(document).ready(function () {
+            //* show all elements & remove preloader
+            setTimeout('$("html").removeClass("js")', 1000);
+            $("input[type=text],input[type=number]").focus(function () {
+                var save_this = $(this);
+                window.setTimeout(function () {
+                save_this.select();
+            }, 100);
+            });
+            if ($('#sortCol').val() != "-1" && $('#sortCol').val() != undefined)
+                gebo_datatbles_Custom.dt_bb();
+        });
+        var sortingCol = $('#sortCol').val();
+        gebo_datatbles_Custom = {
+            dt_bb: function () {
+            oTable = $('#dt_bb').dataTable({
+                "bSort": true,
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "aaSorting": [[sortingCol, 'desc']],
+                "sPaginationType": "bootstrap_alt",
+                "iDisplayLength": 25,
+
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ # of rows per page",
+                    "sInfoFiltered": "<span class='aaa' style='color:red'>(filtered from _MAX_ total records)</span>"
+                },
+                "bDestroy": true,
+
+            });
+        }
+        }
+        </script>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
